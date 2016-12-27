@@ -1,0 +1,92 @@
+//12.26.16
+//12.27.16
+//Diana Smith
+
+import java.io.*;
+import javax.swing.JOptionPane;
+import java.util.*;
+
+public class ContactsBook {
+	public static void main(String[] args) throws IOException
+	{
+		String contact;
+		String num;
+		String filename;
+		String choice;
+		String choicethree = "yes".toLowerCase();
+		
+		JOptionPane.showMessageDialog(null,"Welcome to the Contacts Book Application");
+		filename = JOptionPane.showInputDialog(null, "What is your name? ");
+		
+		while (choicethree.equals("yes"))
+		{
+			choice = JOptionPane.showInputDialog(null,"Would you like to see contacts or add contacts ").toLowerCase();
+			File file = new File(filename);
+			
+			if (choice.equals("see"))
+			{
+				if (!file.exists())
+				{
+					JOptionPane.showMessageDialog(null,"You do not have a contacts book set up yet");
+					String choicetwo = JOptionPane.showInputDialog(null, "Would you like to create one?").toLowerCase();
+					
+					if (choicetwo.equals("yes"))
+					{ 
+						PrintWriter outputFile = new PrintWriter(filename);
+						choice = "add" ; 
+					}
+					else if (choicetwo.equals("no"))
+					{
+						JOptionPane.showMessageDialog(null, "Thank you.");
+					}
+					else 
+					{
+						JOptionPane.showMessageDialog(null, "Error,Please input \"Yes\" or \"No\" ");
+					}
+				}
+		
+				else if (file.exists())
+				{
+						JOptionPane.showMessageDialog(null,"You have a contacts book");
+						
+						List<String> contactcontents = new ArrayList<String>();
+						
+						BufferedReader br = new BufferedReader(new FileReader(filename));
+					    String aLineFromFile = null;
+					    while ((aLineFromFile = br.readLine()) != null)
+					    {
+					            contactcontents.add(aLineFromFile);
+					    }        
+					    br.close();
+					    JOptionPane.showMessageDialog(null, contactcontents);
+					}
+				choicethree = JOptionPane.showInputDialog("Would you like to return to main menu?").toLowerCase();
+			
+				}
+		
+		else if (choice.equals("add"))
+		{
+			FileWriter fwriter = new FileWriter((filename), true);
+			PrintWriter outputFile = new PrintWriter(fwriter);
+			{
+			contact = JOptionPane.showInputDialog(null,"Ok, Lets Begin. What is the contact's name? ") + ":";
+			outputFile.println(contact);
+			
+			num = JOptionPane.showInputDialog(null,"Thank You. What is the contacts number? ");
+			outputFile.println(num);
+			outputFile.close();
+			}
+			choicethree = JOptionPane.showInputDialog("Would you like to return to main menu?");
+			}
+		
+		else 
+		{
+			JOptionPane.showMessageDialog(null, "Please return to main menu");
+			choicethree = "yes";
+		}
+		
+	
+		} 
+	}
+}
+
